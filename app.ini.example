@@ -1,0 +1,10 @@
+[signal]
+knownNumbers=//comma seperated list, numbers with "+" sign
+ownNumber=//with "+" sign
+[mqtt]
+host=//broker host
+port=//broker port
+username=//mqtt username
+password=//mqtt password
+caCert=//path to ca root cert
+notifyPresence=1/0
