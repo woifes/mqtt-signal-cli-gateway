@@ -1,0 +1,17 @@
+[Unit]
+Description=Connects a mqtt broker to signal-cli
+Requires=signal-cli.service
+After=signal-cli.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/mqttsignal/main.py /var/lib/signal-cli/mqtt-signal-gateway.ini
+User=signal-cli
+Restart=on-failure
+RestartSec=20
+TimeoutStartSec=infinity
+
+[Install]
+WantedBy=sysinit.target
