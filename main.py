@@ -17,7 +17,7 @@ mqttConfig = {
 	"clientId": "signalGateway" + ownNumber[-3:],
 	"username": config["mqtt"]["username"],
 	"password": config["mqtt"]["password"],
-	"caCert": config["mqtt"]["caCert"],
+	"caCert": True if config["mqtt"]["caCert"] != "" else False,
 	"notifyPresence": True if config["mqtt"]["notifyPresence"] == "1" else False
 }
 
@@ -33,8 +33,9 @@ class MqttSignal:
 
 		#mqtt
 		self._mqtt = mqtt.Client(mqttConfig["clientId"])
-		self._mqtt.tls_set(mqttConfig["caCert"])
-		self._mqtt.tls_insecure_set(True)
+		if mqttConfig["caCert"]:
+			self._mqtt.tls_set(mqttConfig["caCert"])
+			self._mqtt.tls_insecure_set(True)
 		self._mqtt.username_pw_set(mqttConfig["username"], mqttConfig["password"])
 		if mqttConfig["notifyPresence"]:
 			self._mqtt.will_set("clients/" + mqttConfig["clientId"], "0", 0, True)
@@ -67,7 +68,7 @@ class MqttSignal:
 		m = ""
 		for c in self._signalCommands:
 			m += c + " - " + self._signalCommands[c]["info"] + "\n"
-		self._sendSignalMsg(m, source)
+		self._sendSignalMsg(m, source.split())
 
 	def _onMqttPing(self, timestamp, source, params):
 		self._publishMqtt("signal/ping", source)
@@ -91,11 +92,11 @@ class MqttSignal:
 		elif(m.topic.find("signal/to/") != -1):
 			receiver = "+" + m.topic.split("/")[-1:][0]
 			if(receiver in knownNumbers):
-				self._sendSignalMsg(m.payload, receiver)
+				self._sendSignalMsg(m.payload, receiver.split())
 
 	def _onMqttPong(self, m):
 		if(m.payload in knownNumbers):
-			self._sendSignalMsg("/pong", m.payload)
+			self._sendSignalMsg("/pong", m.payload.split())
 
 	def loop(self):
 		self._mqtt.loop_start()
@@ -105,3 +106,4 @@ MQTTSIGNAL = MqttSignal()
 MQTTSIGNAL.loop()
 loop = GLib.MainLoop()
 loop.run()
+
