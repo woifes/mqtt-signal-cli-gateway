@@ -33,7 +33,7 @@ class MqttSignal:
 
 		#mqtt
 		self._mqtt = mqtt.Client(mqttConfig["clientId"])
-		if mqttConfig["caCert"]:
+if len(mqttConfig["caCert"]) > 0:
 			self._mqtt.tls_set(mqttConfig["caCert"])
 			self._mqtt.tls_insecure_set(True)
 		self._mqtt.username_pw_set(mqttConfig["username"], mqttConfig["password"])
