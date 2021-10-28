@@ -6,5 +6,5 @@ host=//broker host
 port=//broker port
 username=//mqtt username
 password=//mqtt password
-caCert=//path to ca root cert
+caCert=//path to ca root cert or leave blank for no TLS
 notifyPresence=1/0
