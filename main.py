@@ -106,4 +106,3 @@ MQTTSIGNAL = MqttSignal()
 MQTTSIGNAL.loop()
 loop = GLib.MainLoop()
 loop.run()
-
