@@ -46,7 +46,7 @@ class MqttSignal:
 	#signal
 
 	def _sendSignalMsg(self, message, to):
-		self._signal.sendMessage(message, [], to)
+		self._signal.sendMessage(message, [], [to])
 
 	def _onSignalMsg(self, timestamp, source, groupID, message, attachments):
 		if(not source in knownNumbers):
@@ -68,7 +68,7 @@ class MqttSignal:
 		m = ""
 		for c in self._signalCommands:
 			m += c + " - " + self._signalCommands[c]["info"] + "\n"
-		self._sendSignalMsg(m, source.split())
+		self._sendSignalMsg(m, source)
 
 	def _onMqttPing(self, timestamp, source, params):
 		self._publishMqtt("signal/ping", source)
@@ -92,11 +92,11 @@ class MqttSignal:
 		elif(m.topic.find("signal/to/") != -1):
 			receiver = "+" + m.topic.split("/")[-1:][0]
 			if(receiver in knownNumbers):
-				self._sendSignalMsg(m.payload, receiver.split())
+				self._sendSignalMsg(m.payload, receiver)
 
 	def _onMqttPong(self, m):
 		if(m.payload in knownNumbers):
-			self._sendSignalMsg("/pong", m.payload.split())
+			self._sendSignalMsg("/pong", m.payload)
 
 	def loop(self):
 		self._mqtt.loop_start()
