@@ -17,7 +17,7 @@ mqttConfig = {
 	"clientId": "signalGateway" + ownNumber[-3:],
 	"username": config["mqtt"]["username"],
 	"password": config["mqtt"]["password"],
-	"caCert": True if config["mqtt"]["caCert"] != "" else False,
+"caCert": config["mqtt"]["caCert"] if config.has_option("mqtt", "caCert") else "",
 	"notifyPresence": True if config["mqtt"]["notifyPresence"] == "1" else False
 }
 
