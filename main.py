@@ -17,7 +17,7 @@ mqttConfig = {
 	"clientId": "signalGateway" + ownNumber[-3:],
 	"username": config["mqtt"]["username"],
 	"password": config["mqtt"]["password"],
-"caCert": config["mqtt"]["caCert"] if config.has_option("mqtt", "caCert") else "",
+	"caCert": config["mqtt"]["caCert"] if config.has_option("mqtt", "caCert") else "",
 	"notifyPresence": True if config["mqtt"]["notifyPresence"] == "1" else False
 }
 
@@ -33,7 +33,7 @@ class MqttSignal:
 
 		#mqtt
 		self._mqtt = mqtt.Client(mqttConfig["clientId"])
-if len(mqttConfig["caCert"]) > 0:
+		if len(mqttConfig["caCert"]) > 0:
 			self._mqtt.tls_set(mqttConfig["caCert"])
 			self._mqtt.tls_insecure_set(True)
 		self._mqtt.username_pw_set(mqttConfig["username"], mqttConfig["password"])
