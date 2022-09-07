@@ -45,7 +45,12 @@ class MqttSignal:
 	#signal
 
 	def _sendSignalMsg(self, message, to):
-		self._signal.sendMessage(message, [], to)
+		#workaround because Systembus can not handle overloaded methods (it is random which method you get)
+		try:
+			self._signal.sendMessage(message, [], to)
+		except:
+			self._signal.sendMessage(message, [], [to])
+
 
 	def _onSignalMsg(self, timestamp, source, groupID, message, attachments):
 		if(not source in knownNumbers):

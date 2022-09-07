@@ -1,6 +1,8 @@
 # MQTT - Signal-Cli Gateway
 
-This is a lightweight, single file mqtt to signal-cli gateway written in python. It is assumed that signal-cli is running as a username independent dbus service (without the "-u" option) on the system. The gateway connects to the service and sends messages from signal to the topic 
+This is a lightweight, single file mqtt to signal-cli gateway written in python. It is assumed that signal-cli is running as a username independent dbus service (without the "-u" option) on the system. The gateway connects to the service and sends messages from signal to the topic.
+
+**This is an PoC and not really intented for production usage.**
 ```
 signal/from/<phonenumberwithout+sign
 ```
